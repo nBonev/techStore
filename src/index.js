@@ -6,11 +6,11 @@ import routes from './routes.js';
 const app = express();
 
 //Handlebars setup
-app.engine('handlebars', handlebars.engine({
+app.engine('hbs', handlebars.engine({
     extname: 'hbs',
 }));
 
-app.set('view engine', 'handlebars');
+app.set('view engine', 'hbs');
 app.set('views', './src/views');
 
 //Express setup

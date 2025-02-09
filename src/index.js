@@ -2,6 +2,11 @@ import express from 'express';
 
 const app = express();
 
+//Express setup
+app.use(express.static('src/public'));
+app.use(express.urlencoded({ extended: false }));
+
+//Routes
 app.get('/', (req, res) => {
     res.send('It works!');
 });

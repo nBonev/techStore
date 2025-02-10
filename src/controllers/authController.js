@@ -12,7 +12,7 @@ authController.post('/register', (req, res) => {
     
     authService.register(userData);
 
-    res.redirect('auth/register');
+    res.redirect('/auth/login');
     
 });
 

@@ -7,7 +7,7 @@ import { getErrorMessage } from "../utils/errorUtils.js";
 const authController = Router();
 
 authController.get('/login', (req, res) => {
-    res.render('auth/login');
+    res.render('auth/login', {pageTitle: 'TechStore | Login'});
 });
 
 authController.post('/login', async (req, res) => {
@@ -26,7 +26,7 @@ authController.post('/login', async (req, res) => {
 });
 
 authController.get('/register', (req, res) => {
-    res.render('auth/register');
+    res.render('auth/register', {pageTitle: 'TechStore | Register'});
 });
 
 authController.post('/register', async (req, res) => {

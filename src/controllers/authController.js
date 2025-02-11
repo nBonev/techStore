@@ -12,11 +12,17 @@ authController.get('/login', (req, res) => {
 
 authController.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    const token = await authService.login(email, password);
 
-    res.cookie(AUTH_COOKIE_NAME, token, {httpOnly: true});
+    try {
+        const token = await authService.login(email, password);
 
-    res.redirect('/');
+        res.cookie(AUTH_COOKIE_NAME, token, {httpOnly: true});
+        res.redirect('/');
+    }catch(err) {
+        const error = getErrorMessage(err);
+        res.render('auth/login', { error, user: { email } });
+    }
+    
 });
 
 authController.get('/register', (req, res) => {
@@ -35,9 +41,6 @@ authController.post('/register', async (req, res) => {
         const error = getErrorMessage(err);
         res.render('auth/register', { error, user: userData });
     }
-    
-
-    
     
 });
 

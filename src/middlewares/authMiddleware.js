@@ -13,10 +13,20 @@ export const auth = (req, res, next) => {
         req.user = decodedToken;
         res.locals.user = decodedToken;
 
-        next();
     }catch(err) {
         res.clearCookie(AUTH_COOKIE_NAME);
-        res.redirect('/auth/login');
+        return res.redirect('/auth/login');
     }
+
+    next();
     
+};
+
+export const isAuth = (req, res, next) => {
+    if(!req.user) {
+        return res.redirect('/auth/login');
+    }
+
+
+    next();
 };

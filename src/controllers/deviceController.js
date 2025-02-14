@@ -81,4 +81,30 @@ deviceController.get('/:deviceId/delete', isAuth, async (req, res) => {
     
 });
 
+deviceController.get('/:deviceId/edit', isAuth, async (req, res) => {
+    const deviceId = req.params.deviceId;
+    const device = await deviceService.getOne(deviceId);
+
+    if(!device.owner.equals(req.user.id)) {
+        return res.redirect(`/devices/${deviceId}/details`);
+    }
+    
+    res.render('devices/edit', { device });
+});
+
+deviceController.post('/:deviceId/edit', isAuth, async (req, res) => {
+    const deviceId = req.params.deviceId;
+    const userId = req.user.id;
+    const deviceData = req.body;
+
+    try {
+        await deviceService.update(deviceId, userId, deviceData);
+
+        return res.redirect(`/devices/${deviceId}/details`)
+    }catch(err) {
+        res.render('devices/edit', {device: deviceData, error: getErrorMessage(err)});
+    }
+    
+});
+
 export default deviceController;

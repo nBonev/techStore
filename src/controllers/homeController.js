@@ -18,7 +18,13 @@ homeController.get('/about', (req, res) => {
 });
 
 homeController.get('/profile', isAuth, async (req, res) => {
-    res.render('profile');
+    const ownDevices = await deviceService.getAll({ owner: req.user.id });
+    const preferredDevices = await deviceService.getAll({ preferredBy: req.user.id });
+
+    res.render('profile', {
+        ownDevices, 
+        preferredDevices,
+    });
 });
 
 export default homeController;

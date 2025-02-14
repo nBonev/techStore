@@ -1,6 +1,18 @@
 import Device from "../models/Device.js";
 
-export const getAll = () => Device.find({});
+export const getAll = (filter = {}) => {
+    let query = Device.find({});
+
+    if(filter.owner) {
+        query = query.find({ owner: filter.owner });
+    }
+
+    if(filter.preferredBy) {
+        query = query.in('preferredList', filter.preferredBy);
+    }
+
+    return query;
+}
 
 export const getLatest = () => Device.find({}).sort({ _id: 'desc' }).limit(3);
 //export const getLatest = () => Device.find({}).sort({ createdAt: 'desc' }).limit(3);

@@ -33,4 +33,11 @@ deviceController.post('/create', isAuth, async (req, res) => {
 
 });
 
+deviceController.get('/:deviceId/details', async (req, res) => {
+    const deviceId = req.params.deviceId;
+    const device = await deviceService.getOne(deviceId);
+
+    res.render('devices/details', { device });
+});
+
 export default deviceController;

@@ -39,8 +39,30 @@ deviceController.get('/:deviceId/details', async (req, res) => {
 
     //const isOwner = req.user && req.user.id === device.owner.toString();
     const isOwner = device.owner.equals(req.user?.id);
+    const isPreferred = device.preferredList.includes(req.user?.id);
 
-    res.render('devices/details', { device, isOwner });
+    res.render('devices/details', { device, isOwner, isPreferred });
+});
+
+deviceController.get('/:deviceId/prefer', isAuth, async (req, res) => {
+    const deviceId = req.params.deviceId;
+    const userId = req.user.id;
+
+    try {
+        await deviceService.prefer(deviceId, userId);
+
+        res.redirect(`/devices/${deviceId}/details`);
+
+    }catch(err) {
+        console.log(err);
+        
+        // res.render(`/devices/${deviceId}/details`, {
+        //     error: getErrorMessage(err),
+        // });
+    }
+
+    res.redirect(`/devices/${deviceId}/details`);
+    
 });
 
 export default deviceController;

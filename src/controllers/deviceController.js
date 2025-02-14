@@ -37,7 +37,10 @@ deviceController.get('/:deviceId/details', async (req, res) => {
     const deviceId = req.params.deviceId;
     const device = await deviceService.getOne(deviceId);
 
-    res.render('devices/details', { device });
+    //const isOwner = req.user && req.user.id === device.owner.toString();
+    const isOwner = device.owner.equals(req.user?.id);
+
+    res.render('devices/details', { device, isOwner });
 });
 
 export default deviceController;

@@ -12,4 +12,8 @@ homeController.get('/', async (req, res) => {
     });
 });
 
+homeController.get('/about', (req, res) => {
+    res.render('about');
+});
+
 export default homeController;

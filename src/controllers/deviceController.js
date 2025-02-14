@@ -65,4 +65,20 @@ deviceController.get('/:deviceId/prefer', isAuth, async (req, res) => {
     
 });
 
+deviceController.get('/:deviceId/delete', isAuth, async (req, res) => {
+    const deviceId = req.params.deviceId;
+    const userId = req.user.id;
+
+    try {
+        await deviceService.remove(deviceId, userId);
+
+        res.redirect('/devices');
+    }catch(err) {
+        console.log(err);
+        
+        res.redirect(`/devices/${deviceId}/details`);
+    }
+    
+});
+
 export default deviceController;

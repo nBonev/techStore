@@ -21,9 +21,20 @@ export const prefer = async (deviceId, userId) => {
     }
 
     device.preferredList.push(userId);
-    
+
     return device.save();
 }
+
+export const remove = async (deviceId, userId) => {
+    const device = await getOne(deviceId);
+
+    if(!device.owner.equals(userId)) {
+        throw new Error('Only owner can delete this offer!');
+    }
+
+    return Device.findByIdAndDelete(deviceId);
+}
+
 
 const deviceService = {
     create,
@@ -31,6 +42,7 @@ const deviceService = {
     getOne,
     getAll,
     prefer,
+    remove,
 };
 
 export default deviceService;
